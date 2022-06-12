@@ -1,0 +1,55 @@
+version: "3.7"
+services:
+  mysql_db:
+    image: mysql
+    container_name: mysql_db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: gestionapp
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - ./db-data:/var/lib/mysql
+    networks:
+      - GestionApp
+
+  frontend:
+    container_name: frontend
+    restart: unless-stopped
+    build:
+      context: ./frontEnd
+      dockerfile: Dockerfile-React
+    volumes:
+      - './FrontEnd:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backEnd
+      dockerfile: Dockerfile-Spring
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    links:
+      - mysql_db
+    depends_on:
+      - mysql_db
+    environment:
+      DATABASE_HOST: mysql_db
+      DATABASE_USER: admin
+      DATABASE_PASSWORD: admin
+      DATABASE_NAME: gestionApp
+      DATABASE_PORT: 3306
+    networks:
+      - GestionApp
+networks:
+  GestionApp:

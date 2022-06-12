@@ -1,0 +1,31 @@
+
+
+    .nav-link .fa {
+        transition: all 1s
+    }
+
+    .nav-link:hover .fa {
+        transform: rotate(1080deg)
+    }
+
+    .nav_name {
+        padding-left: 0.5em;
+    }
+
+    .navbar{
+        margin-bottom: 0.5em;
+    }
+
+
+    .nav_logo {
+        margin-left: 0.2em;
+        font-size: 2rem;
+        margin-right: 0.5em;
+        color: white;
+    }
+
+
+
+
+
+
