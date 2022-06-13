@@ -82,6 +82,12 @@ class LineasPedido extends Component {
             }).then(res => {
                 this.refresh();
                 this.handleClose();
+            }).catch(function (error) {
+                console.log(error.response.status);
+                if(error.response.status==500){
+                    alert("Este campo no se puede eliminar. Existen campos que dependen de el")
+                }
+
             });
 
     };

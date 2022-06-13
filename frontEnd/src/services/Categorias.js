@@ -72,13 +72,20 @@ class Categorias extends Component {
     };
 
     delete = (row) => {
-            axios({
-                method: 'delete',
-                url: `http://localhost:8080/categorias/rest/delete/`+ row.id,
-            }).then(res => {
-                this.refresh();
-                this.handleClose();
-            });
+        axios({
+            method: 'delete',
+            url: `http://localhost:8080/categorias/rest/delete/` + row.id,
+        }).then(res => {
+            console.log(res.status)
+            this.refresh();
+            this.handleClose();
+        }).catch(function (error) {
+            console.log(error.response.status);
+            if(error.response.status==500){
+                alert("Este campo no se puede eliminar. Existen campos que dependen de el")
+            }
+
+        });
 
     };
 
